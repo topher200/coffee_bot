@@ -10,11 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-public class CoffeeBot extends Activity implements SensorEventListener{
+public class CoffeeBot extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private final String mClassName = "CoffeeBot";
-  
+    private final int mDetectionAngle = -8;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,8 @@ public class CoffeeBot extends Activity implements SensorEventListener{
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER) {
             float ax = event.values[0];
-            if (ax < -8) {
-                Log.e(mClassName, "ax " + ax);
+            if (ax < mDetectionAngle) {
+                Log.e("Detection angle hit");
             }
         }
         else {
