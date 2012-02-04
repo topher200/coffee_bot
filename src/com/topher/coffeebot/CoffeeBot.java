@@ -82,15 +82,15 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         Log.e(mClassName, "entering sendTweet()");
         
         HttpPost httpPost = new HttpPost(
-                "http://api.supertweet.net/1/direct_messages/new.xml");
+                "http://api.supertweet.net/1/statuses/update.xml");
         httpPost.setHeader("content-type", "application/json");
         
         JSONObject json_data = new JSONObject();
         try {
-			json_data.put("user", "topher200");
-            json_data.put("test", "I am a robot. Roar.");
+            json_data.put("status", "Robots don't even like coffee!");
 		} catch (JSONException e) {
 			e.printStackTrace();
+            return false;
 		}
             
         
@@ -99,6 +99,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 			httpPost.setEntity(entity);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
+            return false;
 		}
         
         DefaultHttpClient httpClient = new DefaultHttpClient();
@@ -110,12 +111,15 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         try {
             Log.e(mClassName, "sending tweet!");
 			HttpResponse response = httpClient.execute(httpPost);
+			Log.i(mClassName, "response code: " + response.getStatusLine());
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+            return false;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+            return false;
 		}
         
         return true;
