@@ -46,9 +46,10 @@ public class CoffeeBot extends Activity implements SensorEventListener{
 
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER) {
-            Log.e(mClassName, "ax " + event.values[0]);
-            Log.e(mClassName, "ay " + event.values[1]);
-            Log.e(mClassName, "az " + event.values[2]);
+            float ax = event.values[0];
+            if (ax < -8) {
+                Log.e(mClassName, "ax " + ax);
+            }
         }
         else {
             Log.e(mClassName, "how did we get a different sensor???");
