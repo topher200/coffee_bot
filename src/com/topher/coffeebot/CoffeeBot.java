@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -98,9 +98,13 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         mLastTweetTime = current_time;
         
         HttpPost httpPost = new HttpPost(
-                "http://api.supertweet.net/1/statuses/update.xml");
-        httpPost.setHeader("content-type", "application/json");
-        
+                "http://api.supertweet.net/1/statuses/update.json");
+        httpPost.addHeader(BasicScheme.authenticate(
+                                   new UsernamePasswordCredentials(
+                                           "FSCoffeeBot",
+                                           "supertweetisawesome"),
+                                   "US-ASCII", false));
+                                                            
         ArrayList<NameValuePair> nameValuePairs =
                 new ArrayList<NameValuePair>();
         nameValuePairs.add(
@@ -115,11 +119,6 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 		}
         
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        httpClient.getCredentialsProvider().setCredentials(
-                new AuthScope("api.supertweet.net", 80),
-                new UsernamePasswordCredentials("FSCoffeeBot",
-                                                "supertweetisawesome"));
-        
         try {
             Log.e(mClassName, "sending tweet!");
 			HttpResponse response = httpClient.execute(httpPost);
