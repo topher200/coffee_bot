@@ -2,17 +2,18 @@ package com.topher.coffeebot;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -85,18 +86,14 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                 "http://api.supertweet.net/1/statuses/update.xml");
         httpPost.setHeader("content-type", "application/json");
         
-        JSONObject json_data = new JSONObject();
-        try {
-            json_data.put("status", "Robots don't even like coffee!");
-		} catch (JSONException e) {
-			e.printStackTrace();
-            return false;
-		}
+        ArrayList<NameValuePair> nameValuePairs =
+                new ArrayList<NameValuePair>();
+        nameValuePairs.add(
+                new BasicNameValuePair("status",
+                                       "Robots don't even like coffee!"));
             
-        
 		try {
-			StringEntity entity = new StringEntity(json_data.toString());
-			httpPost.setEntity(entity);
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
             return false;
@@ -104,7 +101,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         
         DefaultHttpClient httpClient = new DefaultHttpClient();
         httpClient.getCredentialsProvider().setCredentials(
-                new AuthScope("supertweet", 80, AuthScope.ANY_REALM),
+                new AuthScope("api.supertweet.net", 80),
                 new UsernamePasswordCredentials("FSCoffeeBot",
                                                 "supertweetisawesome"));
         
@@ -112,6 +109,8 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             Log.e(mClassName, "sending tweet!");
 			HttpResponse response = httpClient.execute(httpPost);
 			Log.i(mClassName, "response code: " + response.getStatusLine());
+            String responseBody = EntityUtils.toString(response.getEntity());
+			Log.d(mClassName, "response body: " + responseBody);
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
