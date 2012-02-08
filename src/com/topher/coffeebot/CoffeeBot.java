@@ -32,8 +32,11 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     
     // Angle near 90deg - if the phone gets to this angle, it's up
     private final int mDetectionAngle = 8;
+    
     // Save the last angle we saw the phone at
     private float mLastAngle;
+    // The last time we sent a tweet (in millis)
+    private long mLastTweetTime;
 
     /** Called when the activity is first created. */
     @Override
@@ -47,6 +50,8 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         // Add sensor listener
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        mLastTweetTime = -1;
     }
     
     public void onResume() {
@@ -81,6 +86,16 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     
     public Boolean sendTweet() {
         Log.e(mClassName, "entering sendTweet()");
+
+        // Don't send a tweet if we sent one in the past 5 minutes
+        long current_time = System.currentTimeMillis();
+        if ((mLastTweetTime != -1) &&  // uninitialized
+            (current_time < (mLastTweetTime + 1000*60*5))) {
+            Log.i(mClassName,
+                  "not sending a tweet - sent one less than 5 minutes ago");
+            return false;
+        }
+        mLastTweetTime = current_time;
         
         HttpPost httpPost = new HttpPost(
                 "http://api.supertweet.net/1/statuses/update.xml");
