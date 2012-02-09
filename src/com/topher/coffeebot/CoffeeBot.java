@@ -1,7 +1,9 @@
 package com.topher.coffeebot;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -56,9 +58,8 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         super.onResume();
         
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        
-        TextView floater = (TextView)findViewById(R.id.FloatingTextView);
-        floater.setText("@FSCoffeeBot");
+
+        setFloaterText();
     }
   
     public void onPause() {
@@ -142,9 +143,23 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 		*/
         
         mLastTweetTime = currentTime;
-        TextView floater = (TextView)findViewById(R.id.FloatingTextView);
-        floater.setText("@FSCoffeeBot");
+        setFloaterText();
         
         return true;
+    }
+
+    private void setFloaterText() {
+        String text = new String("@FSCoffeeBot");
+        if (mLastTweetTime != -1) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(mLastTweetTime);
+            text += "\n";
+            text += "Last brew:";
+            text += "\n";
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE hh:mma");
+            text += sdf.format(calendar.getTime());
+        }
+        TextView floater = (TextView)findViewById(R.id.FloatingTextView);
+        floater.setText(text);
     }
 }
