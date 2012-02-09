@@ -36,6 +36,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(mClassName, "entering onCreate()");
         super.onCreate(savedInstanceState);
 
         // Create view
@@ -50,12 +51,14 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     }
     
     public void onResume() {
+        Log.d(mClassName, "entering onResume()");
         super.onResume();
         
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
   
     public void onPause() {
+        Log.d(mClassName, "entering onPause()");
         super.onPause();
         
         mSensorManager.unregisterListener(this);
@@ -65,6 +68,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     }
 
     public void onSensorChanged(SensorEvent event) {
+        Log.d(mClassName, "entering onSensorChanged()");
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER) {
             float current_angle = Math.abs(event.values[0]);
             // If we were tilted last time and now we're not, trigger
@@ -80,7 +84,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     }
     
     public Boolean sendTweet() {
-        Log.e(mClassName, "entering sendTweet()");
+        Log.d(mClassName, "entering sendTweet()");
 
         // Don't send a tweet if we sent one in the past 5 minutes
         long current_time = System.currentTimeMillis();
