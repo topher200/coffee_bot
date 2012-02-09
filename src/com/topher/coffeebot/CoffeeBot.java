@@ -1,19 +1,14 @@
 package com.topher.coffeebot;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -118,6 +113,11 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             return false;
 		}
         
+        // Just for debugging
+        Log.e(mClassName, "debugging - not sending tweet");
+        return false;
+
+        /*
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             Log.e(mClassName, "sending tweet!");
@@ -136,5 +136,6 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 		}
         
         return true;
+        */
     }
 }
