@@ -3,7 +3,10 @@ package com.topher.coffeebot;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -30,6 +33,15 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     
     // Angle near 90deg - if the phone gets to this angle, it's up
     private final int mDetectionAngle = 8;
+
+    List<String> mTweets = Arrays.asList(
+        "Alert! Coffee detected!",
+        "You know what you want right now? Coffee!",
+        "I could be wrong... False. I'm a robot. I'm never wrong. Coffee!",
+        "Someone's trying to steal the coffee pot! Or maybe they're brewing...",
+        "!eeffoC",
+        "The coffee tastes like mud; it was ground a few minutes ago"
+                                         );
     
     // Save the last angle we saw the phone at
     private float mLastAngle;
@@ -108,11 +120,14 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                                            "supertweetisawesome"),
                                    "US-ASCII", false));
                                                             
+        Random random = new Random();
+        int tweetNumber = random.nextInt(mTweets.size());
+        String tweet = mTweets.get(tweetNumber);
+        Log.i(mClassName, "tweet: " + tweet);
+                
         ArrayList<NameValuePair> nameValuePairs =
                 new ArrayList<NameValuePair>();
-        nameValuePairs.add(
-                new BasicNameValuePair("status",
-                                       "Robots don't even like coffee!"));
+        nameValuePairs.add(new BasicNameValuePair("status", tweet));
             
 		try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
