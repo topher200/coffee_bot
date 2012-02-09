@@ -44,8 +44,8 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         "You know what you want right now? Coffee!",
         "I could be wrong... False. I'm a robot. I'm never wrong. Coffee!",
         "Someone's trying to steal the coffee pot! Or maybe they're brewing...",
-        "!eeffoC",
-        "The coffee tastes like mud; it was ground a few minutes ago"
+        "!eeffoC  ",
+        "The coffee tastes like mud; it was ground a few minutes ago."
                                          );
     
     // Save the last angle we saw the phone at
@@ -128,6 +128,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         Random random = new Random();
         int tweetNumber = random.nextInt(mTweets.size());
         String tweet = mTweets.get(tweetNumber);
+        tweet += " On " + getLastTweetTime();
         Log.i(mClassName, "tweet: " + tweet);
                 
         ArrayList<NameValuePair> nameValuePairs =
@@ -164,16 +165,20 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         return true;
     }
 
+    private String getLastTweetTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE hh:mm a");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(mLastTweetTime);
+        return sdf.format(calendar.getTime());
+    }
+    
     private void setFloaterText() {
         String text = new String("@FSCoffeeBot");
         if (mLastTweetTime != -1) {
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(mLastTweetTime);
             text += "\n";
             text += "Last brew:";
             text += "\n";
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE hh:mma");
-            text += sdf.format(calendar.getTime());
+            text += getLastTweetTime();
         }
         TextView floater = (TextView)findViewById(R.id.FloatingTextView);
         floater.setText(text);
