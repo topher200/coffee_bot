@@ -18,6 +18,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 
 public class CoffeeBot extends Activity implements SensorEventListener {
@@ -55,6 +56,9 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         super.onResume();
         
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        
+        TextView floater = (TextView)findViewById(R.id.FloatingTextView);
+        floater.setText("@FSCoffeeBot");
     }
   
     public void onPause() {
@@ -70,13 +74,13 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         Log.d(mClassName, "entering onSensorChanged()");
         if (event.sensor.getType()==Sensor.TYPE_ACCELEROMETER) {
-            float current_angle = Math.abs(event.values[0]);
+            float currentAngle = Math.abs(event.values[0]);
             // If we were tilted last time and now we're not, trigger
             if ((mLastAngle > mDetectionAngle) &&
-                (current_angle < mDetectionAngle)) {
+                (currentAngle < mDetectionAngle)) {
                 sendTweet();
             }
-            mLastAngle = current_angle;
+            mLastAngle = currentAngle;
         }
         else {
             Log.e(mClassName, "how did we get a different sensor???");
@@ -87,14 +91,13 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         Log.d(mClassName, "entering sendTweet()");
 
         // Don't send a tweet if we sent one in the past 5 minutes
-        long current_time = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
         if ((mLastTweetTime != -1) &&  // uninitialized
-            (current_time < (mLastTweetTime + 1000*60*5))) {
+            (currentTime < (mLastTweetTime + 1000*60*5))) {
             Log.i(mClassName,
                   "not sending a tweet - sent one less than 5 minutes ago");
             return false;
         }
-        mLastTweetTime = current_time;
         
         HttpPost httpPost = new HttpPost(
                 "http://api.supertweet.net/1/statuses/update.json");
@@ -119,8 +122,6 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         
         // Just for debugging
         Log.e(mClassName, "debugging - not sending tweet");
-        return false;
-
         /*
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
@@ -138,8 +139,12 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 			e.printStackTrace();
             return false;
 		}
+		*/
+        
+        mLastTweetTime = currentTime;
+        TextView floater = (TextView)findViewById(R.id.FloatingTextView);
+        floater.setText("@FSCoffeeBot");
         
         return true;
-        */
     }
 }
