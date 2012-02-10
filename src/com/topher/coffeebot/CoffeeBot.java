@@ -116,8 +116,6 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                   "not sending a tweet - sent one less than 5 minutes ago");
             return false;
         }
-        mLastTweetTime = currentTime;
-        setFloaterText();
         
         HttpPost httpPost = new HttpPost(
                 "http://api.supertweet.net/1/statuses/update.json");
@@ -160,6 +158,9 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 			e.printStackTrace();
             return false;
 		}
+        
+        mLastTweetTime = currentTime;
+        setFloaterText();
         
         return true;
     }
