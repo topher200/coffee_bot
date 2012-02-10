@@ -128,7 +128,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         Random random = new Random();
         int tweetNumber = random.nextInt(mTweets.size());
         String tweet = mTweets.get(tweetNumber);
-        tweet += " On " + getLastTweetTime();
+        tweet += " On " + getFormattedTimeString(System.currentTimeMillis());
         Log.i(mClassName, "tweet: " + tweet);
                 
         ArrayList<NameValuePair> nameValuePairs =
@@ -165,10 +165,10 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         return true;
     }
 
-    private String getLastTweetTime() {
+    private String getFormattedTimeString(long timeMillis) {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE hh:mm a");
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(mLastTweetTime);
+        calendar.setTimeInMillis(timeMillis);
         return sdf.format(calendar.getTime());
     }
     
@@ -178,7 +178,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             text += "\n";
             text += "Last brew:";
             text += "\n";
-            text += getLastTweetTime();
+            text += getFormattedTimeString(mLastTweetTime);
         }
         TextView floater = (TextView)findViewById(R.id.FloatingTextView);
         floater.setText(text);
