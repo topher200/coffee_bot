@@ -21,12 +21,14 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -35,6 +37,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     private final String mClassName = "CoffeeBot";
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
+    private PowerManager.WakeLock mWakeLock;
     
     // Angle near 90deg - if the phone gets to this angle, it's up
     private final int mDetectionAngle = 8;
@@ -67,6 +70,11 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
+                                   mClassName);
+        mWakeLock.acquire();
+
         mLastTweetTime = -1;
     }
     
@@ -75,6 +83,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         super.onResume();
         
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        mWakeLock.acquire();
 
         setFloaterText();
     }
@@ -84,6 +93,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         super.onPause();
         
         mSensorManager.unregisterListener(this);
+        mWakeLock.release();
     }
 
     public void onAccuracyChanged(Sensor arg0, int arg1) {
