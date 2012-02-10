@@ -96,7 +96,10 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             // If we were tilted last time and now we're not, trigger
             if ((mLastAngle > mDetectionAngle) &&
                 (currentAngle < mDetectionAngle)) {
-                sendTweet();
+                if (!sendTweet()) {
+                    Log.i(mClassName, "sendTweet() failed once, trying again");
+                    sendTweet();
+                }
             }
             mLastAngle = currentAngle;
         }
@@ -144,11 +147,14 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
-            Log.e(mClassName, "sending tweet!");
+            Log.w(mClassName, "sending tweet!");
 			HttpResponse response = httpClient.execute(httpPost);
 			Log.i(mClassName, "response code: " + response.getStatusLine());
             String responseBody = EntityUtils.toString(response.getEntity());
 			Log.d(mClassName, "response body: " + responseBody);
+			if (!response.getStatusLine().toString().contains("200")) {
+                return false;
+            }
 		} catch (ClientProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,6 +165,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             return false;
 		}
         
+        Log.w(mClassName, "tweet sent!");
         mLastTweetTime = currentTime;
         setFloaterText();
         
