@@ -38,7 +38,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private PowerManager.WakeLock mWakeLock;
-
+    
     // Angle near 90deg - if the phone gets to this angle, it's up
     private final int mDetectionAngle = 8;
 
@@ -125,7 +125,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         "\"If I asked for a cup of coffee, someone would search for the " +
             "double meaning.\" - Mae West"
                                          );
-
+    
     // Save the last angle we saw the phone at
     private float mLastAngle;
     // The last time we sent a tweet (in millis)
@@ -140,7 +140,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         // Create view
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.main);
-
+        
         // Add sensor listener
         mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -152,21 +152,21 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 
         mLastTweetTime = -1;
     }
-
+    
     public void onResume() {
         Log.d(mClassName, "entering onResume()");
         super.onResume();
-
+        
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mWakeLock.acquire();
 
         setFloaterText();
     }
-
+  
     public void onPause() {
         Log.d(mClassName, "entering onPause()");
         super.onPause();
-
+        
         mSensorManager.unregisterListener(this);
         mWakeLock.release();
     }
@@ -192,7 +192,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             Log.e(mClassName, "how did we get a different sensor???");
         }
     }
-
+    
     public Boolean sendTweet() {
         Log.d(mClassName, "entering sendTweet()");
 
@@ -204,7 +204,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                   "not sending a tweet - sent one less than 5 minutes ago");
             return false;
         }
-
+        
         HttpPost httpPost = new HttpPost(
                 "http://api.supertweet.net/1/statuses/update.json");
         httpPost.addHeader(BasicScheme.authenticate(
@@ -212,24 +212,24 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                                            "FSCoffeeBot",
                                            "supertweetisawesome"),
                                    "US-ASCII", false));
-
+                                                            
         Random random = new Random();
         int tweetNumber = random.nextInt(mTweets.size());
         String tweet = mTweets.get(tweetNumber);
         tweet += " On " + getFormattedTimeString(System.currentTimeMillis());
         Log.i(mClassName, "tweet: " + tweet);
-
+                
         ArrayList<NameValuePair> nameValuePairs =
                 new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("status", tweet));
-
+            
 		try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
             return false;
 		}
-
+        
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             Log.w(mClassName, "sending tweet!");
@@ -249,11 +249,11 @@ public class CoffeeBot extends Activity implements SensorEventListener {
 			e.printStackTrace();
             return false;
 		}
-
+        
         Log.w(mClassName, "tweet sent!");
         mLastTweetTime = currentTime;
         setFloaterText();
-
+        
         return true;
     }
 
@@ -263,7 +263,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         calendar.setTimeInMillis(timeMillis);
         return sdf.format(calendar.getTime());
     }
-
+    
     private void setFloaterText() {
         String text = new String("@FSCoffeeBot");
         if (mLastTweetTime != -1) {
