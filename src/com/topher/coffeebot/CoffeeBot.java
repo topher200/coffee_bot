@@ -71,7 +71,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             "optimism.\" - Abigail Reynolds, Pemberley by the Sea",
         "\"I like instant gratification. It’s like instant coffee, only " +
             "it won’t keep you up all night.\" - Jarod Kintz",
-        "\"If this is coffee, then please-bring me some tea. But if this " +
+        "\"If this is coffee, then please bring me some tea. But if this " +
             "is tea, please bring me some coffee.\" - Abraham Lincoln",
         "\"Coffee is the best thing to douse the sunrise with.\" - Drew " +
             "Sirtors",
