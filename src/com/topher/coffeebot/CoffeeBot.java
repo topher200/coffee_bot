@@ -46,9 +46,84 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         "Alert! Coffee detected!",
         "You know what you want right now? Coffee!",
         "I could be wrong... False. I'm a robot. I'm never wrong. Coffee!",
-        "Someone's trying to steal the coffee pot! Or maybe they're brewing...",
-        "!eeffoC  ",
-        "The coffee tastes like mud; it was ground a few minutes ago."
+        "Someone's trying to steal the coffee pot! Or maybe they're " +
+            "brewing...",
+        "!eeffoC",
+        "The coffee tastes like mud; it was ground a few minutes ago.",
+        "\"As long as there was coffee in the world, how bad could things " +
+            "be?\" - Cassandra Clare, City of Ashes",
+        "\"Coffee is a way of stealing time that should by rights belong to " +
+            "your older self.\" - Terry Prachet, Thud!",
+        "\"Black as night, sweet as sin.\" - Neil Gaiman, Anansi Boys",
+        "\"Coffee - the favorite drink of the civilized world.\" - Thomas " +
+            "Jefferson",
+        "\"I'd rather take coffee than compliments just now.\" - Louisa May " +
+            "Alcott, Little Women",
+        "\"Adventure in life is good; consistency in coffee even better.\" " +
+            "- Justina Chen Headley, North of Beautiful",
+        "\"No matter what historians claimed, BC really stood for \"" +
+            "Before Coffee\".\" - Cherise Sinclair, Master of the Mountain",
+        "\"Come on, don't you ever stop and smell the coffee?\" -  " +
+            "Justina Chen Headley, North of Beautiful",
+        "\"My couch is coffee-colored. I can thank Starbucks and " +
+            "clumsiness for that.\" - Jarod Kintz, This Book is Not for Sale",
+        "\"I like my coffee with cream and my literature with " +
+            "optimism.\" - Abigail Reynolds, Pemberley by the Sea",
+        "\"I like instant gratification. It’s like instant coffee, only " +
+            "it won’t keep you up all night.\" - Jarod Kintz",
+        "\"If this is coffee, then please bring me some tea. But if this " +
+            "is tea, please bring me some coffee.\" - Abraham Lincoln",
+        "\"Coffee is the best thing to douse the sunrise with.\" - Drew " +
+            "Sirtors",
+        "Sleep is a symptom of caffeine deprivation. Good thing there's " +
+            "coffee brewing!",
+        "\"Coffee, the finest organic suspension ever devised.\" - Star " +
+            "Trek: Voyager",
+        "\"Coffee smells like freshly ground heaven.\" - Jessi Lane Adams.",
+        "Deja Brew: The feeling that you've had this coffee before.",
+        "\"I orchestrate my mornings to the tune of coffee.\" - Harry Mahtar",
+        "\"I never drink coffee at lunch. I find it keeps me awake for " +
+            "the afternoon.\" - Ronald Reagan",
+        "Man does not live by coffee alone. Have a danish.",
+        "\"I had some dreams, they were clouds in my coffee.\" - Carly Simon",
+        "\"In Seattle you haven't had enough coffee until you can thread " +
+            "a sewing machine while it's running.\" - Jeff Bezos",
+        "Everybody should believe in something. I believe I'll have " +
+            "another coffee.",
+        "\"I could smell myself awake with that coffee.\" - Jesse Tyler",
+        "\"I have measured out my life with coffee spoons.\" - T.S. Eliot",
+        "Retirement is one great big giant coffee break.",
+        "Do I like my coffee black? There are other colors?",
+        "\"Coffee makes us severe, and grave, and philosophical.\" - " +
+            "Jonathan Swift",
+        "\"A mathematician is a device for turning coffee into " +
+            "theorems.\" - Alfred Renyi... NOT Paul Erdos.",
+        "\"Good communication is just as stimulating as black coffee, and " +
+            "just as hard to sleep after.\" - Anne Morrow Lindbergh",
+        "\"The powers of a man's mind are directly proportioned to the " +
+            "quantity of coffee he drinks.\" - Sir James Mackintosh",
+        "\"I would rather suffer with coffee than be senseless.\" - " +
+            "Napoleon Bonaparte",
+        "\"The discovery of coffee has enlarged the realm of illusion and " +
+            "given more promise to hope.\" - Isidore Bourdon",
+        "\"If it wasn't for coffee, I'd have no discernible personality " +
+            "at all.\" - David Letterman",
+        "\"You make good coffee... You're a slob, but you make good " +
+            "coffee.\" - Cher",
+        "\"I never laugh until I've had my coffee.\" - Clark Gable",
+        "\"Nescafe no es cafe.\" - Mexican saying",
+        "\"Coffee? No thanks, one more cup and I'll jump to warp.\" - " +
+            "Captain Janeway, Star Trek: Voyager",
+        "\"Computer, coffee, hot. In a cup this time!\" - Captain " +
+            "Janeway, Star Trek: Voyager",
+        "\"I put instant coffee in a microwave and almost went back in " +
+            "time.\" - Steven Wright",
+        "\"Coffee has two virtues: it is wet and warm.\" - Dutch saying",
+        "\"We usually don't notice until the coffee tastes funny.\" - " +
+            "Anne Afdahl",
+        "\"Coffee: creative lighter fluid.\" - Floyd Maxwell",
+        "\"If I asked for a cup of coffee, someone would search for the " +
+            "double meaning.\" - Mae West"
                                          );
 
     // Save the last angle we saw the phone at
