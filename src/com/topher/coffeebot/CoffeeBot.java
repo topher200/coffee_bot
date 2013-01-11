@@ -38,7 +38,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private PowerManager.WakeLock mWakeLock;
-    
+
     // Angle near 90deg - if the phone gets to this angle, it's up
     private final int mDetectionAngle = 8;
 
@@ -50,7 +50,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         "!eeffoC  ",
         "The coffee tastes like mud; it was ground a few minutes ago."
                                          );
-    
+
     // Save the last angle we saw the phone at
     private float mLastAngle;
     // The last time we sent a tweet (in millis)
@@ -81,17 +81,17 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     public void onResume() {
         Log.d(mClassName, "entering onResume()");
         super.onResume();
-        
+
         mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         mWakeLock.acquire();
 
         setFloaterText();
     }
-  
+
     public void onPause() {
         Log.d(mClassName, "entering onPause()");
         super.onPause();
-        
+
         mSensorManager.unregisterListener(this);
         mWakeLock.release();
     }
@@ -117,7 +117,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
             Log.e(mClassName, "how did we get a different sensor???");
         }
     }
-    
+
     public Boolean sendTweet() {
         Log.d(mClassName, "entering sendTweet()");
 
@@ -129,7 +129,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                   "not sending a tweet - sent one less than 5 minutes ago");
             return false;
         }
-        
+
         HttpPost httpPost = new HttpPost(
                 "http://api.supertweet.net/1/statuses/update.json");
         httpPost.addHeader(BasicScheme.authenticate(
@@ -137,48 +137,48 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                                            "FSCoffeeBot",
                                            "supertweetisawesome"),
                                    "US-ASCII", false));
-                                                            
+
         Random random = new Random();
         int tweetNumber = random.nextInt(mTweets.size());
         String tweet = mTweets.get(tweetNumber);
         tweet += " On " + getFormattedTimeString(System.currentTimeMillis());
         Log.i(mClassName, "tweet: " + tweet);
-                
+
         ArrayList<NameValuePair> nameValuePairs =
                 new ArrayList<NameValuePair>();
         nameValuePairs.add(new BasicNameValuePair("status", tweet));
-            
-		try {
+
+    try {
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
             return false;
-		}
-        
+    }
+
         DefaultHttpClient httpClient = new DefaultHttpClient();
         try {
             Log.w(mClassName, "sending tweet!");
-			HttpResponse response = httpClient.execute(httpPost);
-			Log.i(mClassName, "response code: " + response.getStatusLine());
+      HttpResponse response = httpClient.execute(httpPost);
+      Log.i(mClassName, "response code: " + response.getStatusLine());
             String responseBody = EntityUtils.toString(response.getEntity());
-			Log.d(mClassName, "response body: " + responseBody);
-			if (!response.getStatusLine().toString().contains("200")) {
+      Log.d(mClassName, "response body: " + responseBody);
+      if (!response.getStatusLine().toString().contains("200")) {
                 return false;
             }
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    } catch (ClientProtocolException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
             return false;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
             return false;
-		}
-        
+    }
+
         Log.w(mClassName, "tweet sent!");
         mLastTweetTime = currentTime;
         setFloaterText();
-        
+
         return true;
     }
 
@@ -188,7 +188,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
         calendar.setTimeInMillis(timeMillis);
         return sdf.format(calendar.getTime());
     }
-    
+
     private void setFloaterText() {
         String text = new String("@FSCoffeeBot");
         if (mLastTweetTime != -1) {
