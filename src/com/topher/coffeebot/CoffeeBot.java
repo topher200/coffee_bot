@@ -213,12 +213,7 @@ public class CoffeeBot extends Activity implements SensorEventListener {
                                "supertweetisawesome"),
                            "US-ASCII", false));
 
-    Random random = new Random();
-    int tweetNumber = random.nextInt(mTweets.size());
-    String tweet = mTweets.get(tweetNumber);
-    tweet += " On " + getFormattedTimeString(System.currentTimeMillis());
-    Log.i(mClassName, "tweet: " + tweet);
-
+    String tweet = getRandomTweet();
     ArrayList<NameValuePair> nameValuePairs =
         new ArrayList<NameValuePair>();
     nameValuePairs.add(new BasicNameValuePair("status", tweet));
@@ -255,6 +250,16 @@ public class CoffeeBot extends Activity implements SensorEventListener {
     setFloaterText();
 
     return true;
+  }
+
+  private String getRandomTweet() {
+    Random random = new Random();
+    int tweetNumber = random.nextInt(mTweets.size());
+    String tweet = mTweets.get(tweetNumber);
+    tweet += " On " + getFormattedTimeString(System.currentTimeMillis());
+
+    Log.i(mClassName, "tweet: " + tweet);
+    return tweet;
   }
 
   private String getFormattedTimeString(long timeMillis) {
